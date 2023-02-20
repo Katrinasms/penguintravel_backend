@@ -12,6 +12,7 @@ import Credit from "./Model/CreditModel.js";
 import User from "./Model/UserModel.js";
 const stripeInstance = stripe('sk_test_51Mbk2bG0cN7nz7SxQE4xPQaAzfkYaKLIJVjYkq0g07ZyjnerUsCnkXXwlqEUZZUkOmzWVjnxzlaUCp4gMxmZ8RgD00D30hGD7S');
 import asyncHandler from "express-async-handler";
+import bodyParser from "body-parser";
 
 
 // const stripePromise = loadStripe("pk_test_51Mbk2bG0cN7nz7SxS0MMm7hnsW4lQdlYegxiOdhWORtwPgQtfBSdQCdfLbLuxHjGhgwDgsrVlwEsPV3It0F5McaW00C0FwwGtq");
