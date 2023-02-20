@@ -8,7 +8,7 @@ import productRoute from "./Routers/ProductRouters.js";
 import orderRouter from './Routers/OrderRouters.js'
 // import stripeRouter from "./Routers/stripeRouter.js"; 
 import stripe from 'stripe';
-import Credit from "./Model/creditModel.js";
+import Credit from "./Model/CreditModel.js";
 import User from "./Model/UserModel.js";
 const stripeInstance = stripe('sk_test_51Mbk2bG0cN7nz7SxQE4xPQaAzfkYaKLIJVjYkq0g07ZyjnerUsCnkXXwlqEUZZUkOmzWVjnxzlaUCp4gMxmZ8RgD00D30hGD7S');
 import asyncHandler from "express-async-handler";
