@@ -180,6 +180,7 @@ app.post(
   endpointSecret = "whsec_65d02c1bec75dc957e1a17522841f9ec9f497ef80d0d6408394a556094b943f7";
 
  app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+    console.log("loading")
     const sig = request.headers['stripe-signature'];
     let data;
     let eventType;
