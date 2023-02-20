@@ -6,7 +6,7 @@ import ImportData from "./dataImport.js";
 import userRouter from "./Routers/UserRouters.js";
 import productRoute from "./Routers/ProductRouters.js";
 import orderRouter from './Routers/OrderRouters.js'
-// import stripeRouter from "./Routers/stripeRouter.js"; 
+import stripeRouter from "./Routers/StripeRouter.js"; 
 import stripe from 'stripe';
 import Credit from "./Model/CreditModel.js";
 import User from "./Model/UserModel.js";
