@@ -22,6 +22,7 @@ connectDatabase();
 
 const app = express()
 const port = 5001
+app.use("/webhook", bodyParser.raw({ type: "*/*" }));
 app.use(express.json());
 app.use(cors({ origin: '*' }))
 
