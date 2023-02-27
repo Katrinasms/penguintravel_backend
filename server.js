@@ -190,8 +190,11 @@ app.post(
   
     if(endpointSecret){
     let event;
+    console.log("req_body", request.body)
+    console.log("sig", sig)
   
     try {
+      
       event = stripeInstance.webhooks.constructEvent(request.body, sig, endpointSecret);
       console.log("Webhook verified")
     } catch (err) {
