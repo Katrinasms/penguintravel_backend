@@ -96,8 +96,8 @@ app.post('/create-checkout-session', async (req, res) => {
     ],
     mode: 'payment',
     customer: customer.id,
-    success_url: `${YOUR_DOMAIN}/success`,
-    cancel_url: `${YOUR_DOMAIN}/buycredit`,
+    success_url: `https://penguin-travel-frontend-61p7.vercel.app/success`,
+    cancel_url: `https://penguin-travel-frontend-61p7.vercel.app/buycredit`,
   });
  
   res.send({url:session.url})
