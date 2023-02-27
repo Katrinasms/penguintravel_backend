@@ -66,7 +66,8 @@ app.post("/create-payment-intent", async (req, res) => {
 //End Strip tried - end//
 
 //Second Strip tried
-const YOUR_DOMAIN = 'http://localhost:3000';
+// const YOUR_DOMAIN = 'http://localhost:3000';
+const YOUR_DOMAIN = "https://penguin-travel-frontend-61p7.vercel.app";
 app.post('/create-checkout-session', async (req, res) => {
 
   const customer = await stripeInstance.customers.create({
