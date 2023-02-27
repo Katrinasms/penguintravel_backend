@@ -195,7 +195,7 @@ app.post(
   
     try {
       
-      event = stripeInstance.webhooks.constructEvent(request.body, sig, endpointSecret);
+      event = stripeInstance.webhooks.constructEvent(request.rawBody, sig, endpointSecret);
       console.log("Webhook verified")
     } catch (err) {
       console.log(`Webhook Error:${err.message}`)
