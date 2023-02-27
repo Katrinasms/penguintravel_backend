@@ -182,30 +182,30 @@ app.post(
  let endpointSecret;
   endpointSecret = "we_1Mg1rtG0cN7nz7SxImJfMzbH";
 
- app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
-    console.log("loading")
-    const sig = request.headers['stripe-signature'];
-    let data;
-    let eventType;
+ app.post('/webhooks', express.raw({type: 'application/json'}), (request, response) => {
+    // console.log("loading")
+    // const sig = request.headers['stripe-signature'];
+    // let data;
+    // let eventType;
   
-    if(endpointSecret){
-    let event;
+    // if(endpointSecret){
+    // let event;
   
-    try {
-      event = stripeInstance.webhooks.constructEvent(request.body, sig, endpointSecret);
-      console.log("Webhook verified")
-    } catch (err) {
-      console.log(`Webhook Error:${err.message}`)
-      response.status(400).send(`Webhook Error: ${err.message}`);
-      return;
-    }
-    data = event.data.object;
-    eventType = event.type;
-    }else{
+    // try {
+    //   event = stripeInstance.webhooks.constructEvent(request.body, sig, endpointSecret);
+    //   console.log("Webhook verified")
+    // } catch (err) {
+    //   console.log(`Webhook Error:${err.message}`)
+    //   response.status(400).send(`Webhook Error: ${err.message}`);
+    //   return;
+    // }
+    // data = event.data.object;
+    // eventType = event.type;
+    // }else{
 
       data = request.body.data.object;
       eventType = request.body.type;
-    }
+    // }
   
     // Handle the event
     if(eventType ==="checkout.session.completed"){
