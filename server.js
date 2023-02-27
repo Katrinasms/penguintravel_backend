@@ -24,7 +24,7 @@ connectDatabase();
 const app = express()
 const port = 5001
 app.use("/webhook", bodyParser.raw({ type: "*/*" }));
-app.use(express.json());
+
 app.use(cors({ origin: '*' }))
 
 
@@ -174,7 +174,7 @@ const endpointSecret = "whsec_bVVmQqjTzbijzhAvUbuVuZBMco5IZXb8";
     // Return a 200 response to acknowledge receipt of the event
     response.send().end();
  });
-
+ app.use(express.json());
 //Second Strip tried - end
 
 const PORT = process.env.PORT || 5001 ;
