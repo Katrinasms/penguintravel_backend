@@ -180,7 +180,7 @@ app.post(
  }
 
  let endpointSecret;
-  endpointSecret = "whsec_65d02c1bec75dc957e1a17522841f9ec9f497ef80d0d6408394a556094b943f7";
+  endpointSecret = "whsec_bVVmQqjTzbijzhAvUbuVuZBMco5IZXb8";
 
  app.post('/webhooks', express.raw({type: 'application/json'}), (request, response) => {
     console.log("loading")
@@ -195,7 +195,7 @@ app.post(
   
     try {
       
-      event = stripeInstance.webhooks.constructEvent(request.rawBody, sig, endpointSecret);
+      event = stripeInstance.webhooks.constructEvent(request.body, sig, endpointSecret);
       console.log("Webhook verified")
     } catch (err) {
       console.log(`Webhook Error:${err.message}`)
