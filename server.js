@@ -28,7 +28,6 @@ const app = express()
 const port = 5001
 // app.use("/webhook", bodyParser.raw({ type: "*/*" }));
 
-app.use(cors({ origin: '*' }))
 
 
 app.get('/', (req, res) => {
@@ -82,6 +81,7 @@ app.post('/webhooks', express.raw({type: 'application/json'}),(request, response
 });
 
 app.use(express.json());
+app.use(cors({ origin: '*' }))
 
 
 
