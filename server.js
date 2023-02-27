@@ -41,6 +41,35 @@ app.use("/api/stripe", stripeRouter);
 
 
 
+app.post(
+  "/createCredit",
+  asyncHandler(async (req, res) => {
+    const {
+      userId,
+      credit_add
+    } = req.body;
+    console.log("/createCredit",req.body)
+
+    if (!userId && !credit_add) {
+      res.status(400);
+      throw new Error("No credit");
+      return;
+    } else {
+      const credit = new Credit({
+        userId,
+        credit_add,
+   
+      });
+
+      const createCredit = await credit.save();
+      res.status(201).json(createCredit);
+    }
+  })
+);
+
+
+
+
 //Second Strip tried
 app.post('/create-checkout-session', async (req, res) => {
 
