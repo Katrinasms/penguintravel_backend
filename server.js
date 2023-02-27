@@ -39,35 +39,9 @@ app.use("/api/orders", orderRouter);
 app.use("/api/stripe", stripeRouter);
 
 
-//First Strip tried - start//
-const calculateOrderAmount = (items) => {
-  // Replace this constant with a calculation of the order's amount
-  // Calculate the order total on the server to prevent
-  // people from directly manipulating the amount on the client
-  return 1400;
-};
 
-app.post("/create-payment-intent", async (req, res) => {
-  const { items } = req.body;
-
-  // Create a PaymentIntent with the order amount and currency
-  const paymentIntent = await stripeInstance.paymentIntents.create({
-    amount: calculateOrderAmount(items),
-    currency: "hkd",
-    automatic_payment_methods: {
-      enabled: true,
-    },
-  });
-
-  res.send({
-    clientSecret: paymentIntent.client_secret,
-  });
-});
-//End Strip tried - end//
 
 //Second Strip tried
-// const YOUR_DOMAIN = 'http://localhost:3000';
-const YOUR_DOMAIN = "https://penguin-travel-frontend-61p7.vercel.app";
 app.post('/create-checkout-session', async (req, res) => {
 
   const customer = await stripeInstance.customers.create({
@@ -82,7 +56,6 @@ app.post('/create-checkout-session', async (req, res) => {
 
     line_items: [
       {
-        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
         price_data:{
           currency:"usd",
           product_data:{
@@ -105,59 +78,10 @@ app.post('/create-checkout-session', async (req, res) => {
   
  });
 
-
-
-app.post(
-  "/createCredit",
-  asyncHandler(async (req, res) => {
-    const {
-      userId,
-      credit_add
-    } = req.body;
-    console.log("/createCredit",req.body)
-
-    if (!userId && !credit_add) {
-      res.status(400);
-      throw new Error("No credit");
-      return;
-    } else {
-      const credit = new Credit({
-        userId,
-        credit_add,
-   
-      });
-
-      const createCredit = await credit.save();
-      res.status(201).json(createCredit);
-    }
-  })
-);
-
-// const createCreditPayment = async()
-
-
  //create credit
  const updateCredit = async(customer) => {
-    // const newCredit = new Credit({
-    //   userId: customer.metadata.userId,
-    //   credit_add: customer.metadata.toPaid
-    // })
-    
-
-    // try {
-    //   const savedCredit = await newCredit.save();
-    //   console.log("Processed Order:", savedCredit);
-    // }catch(err){
-    //   console.log(err);
-    // }
 
     try{
-      // const credit = await Credit.findById(customer.metadata.userId)
-    
-      // credit.payment_status = "success"
-      // const updateCredit = await credit.save()
-      // console.log("Update Credit:", updateCredit);
-      // customer.metadata.credit_add
 
     const user = await User.findById(customer.metadata.userId)
     console.log("update User credit",customer.metadata)
@@ -169,60 +93,42 @@ app.post(
   
     }
        
-    
      
     }catch(err) {
       console.log(err);
     }
-
-
-
  }
 
- app.use(express.json({
-  verify: (request, response, buffer) => {
-    request.rawBody = buffer;
-    return true;
-  }
-}));
+
+const endpointSecret = "whsec_bVVmQqjTzbijzhAvUbuVuZBMco5IZXb8";
 
 
-
- let endpointSecret;
-  endpointSecret = "whsec_bVVmQqjTzbijzhAvUbuVuZBMco5IZXb8";
-
-//  app.post('/webhooks', express.raw({type: 'application/json'}),
- app.post('/webhooks', express.json(),
-  (request, response) => {
+ app.post('/webhooks', express.raw({type: 'application/json'}),(request, response) => {
     console.log("loading")
     const sig = request.headers['stripe-signature'];
-    let data;
-    let eventType;
   
-    if(endpointSecret){
     let event;
-    console.log("req_body", request.body)
-    console.log("sig", sig)
   
     try {
       
-      event = stripeInstance.webhooks.constructEvent(request.rawBody, sig, endpointSecret);
+      event = stripeInstance.webhooks.constructEvent(request.body, sig, endpointSecret);
       console.log("Webhook verified")
     } catch (err) {
       console.log(`Webhook Error:${err.message}`)
       response.status(400).send(`Webhook Error: ${err.message}`);
       return;
     }
+    let data;
     data = event.data.object;
-    eventType = event.type;
-    }else{
+    // eventType = event.type;
+    // }else{
 
-      data = request.body.data.object;
-      eventType = request.body.type;
-    }
+    //   data = request.body.data.object;
+    //   eventType = request.body.type;
+    // }
   
     // Handle the event
-    if(eventType ==="checkout.session.completed"){
+    if(event.type ==="checkout.session.completed"){
       stripeInstance.customers
         .retrieve(data.customer)
         .then(
