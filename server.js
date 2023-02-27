@@ -10,7 +10,9 @@ import stripeRouter from "./Routers/StripeRouter.js";
 import stripe from 'stripe';
 import Credit from "./Model/CreditModel.js";
 import User from "./Model/UserModel.js";
-const stripeInstance = stripe('sk_test_51Mbk2bG0cN7nz7SxQE4xPQaAzfkYaKLIJVjYkq0g07ZyjnerUsCnkXXwlqEUZZUkOmzWVjnxzlaUCp4gMxmZ8RgD00D30hGD7S');
+// const stripeInstance = stripe('sk_test_51Mbk2bG0cN7nz7SxQE4xPQaAzfkYaKLIJVjYkq0g07ZyjnerUsCnkXXwlqEUZZUkOmzWVjnxzlaUCp4gMxmZ8RgD00D30hGD7S');
+const stripeInstance = stripe('pk_live_51Mbk2bG0cN7nz7SxnBSQ6RW5BqJOtZv49CJYZTF55889GFrH0iYplgloSEaEUh0sICqtXexEwuZayKYPO9OaGcfV003flJshCt');
+
 import asyncHandler from "express-async-handler";
 import bodyParser from "body-parser";
 
@@ -44,7 +46,7 @@ app.post('/webhooks', express.raw({type: 'application/json'}),(request, response
   
     try {
       
-      event = stripeInstance.webhooks.constructEvent(request.body, sig, "whsec_bVVmQqjTzbijzhAvUbuVuZBMco5IZXb8");
+      event = stripeInstance.webhooks.constructEvent(request.body, sig, "whsec_zvYoqHscD3LeM1a0iSM3RIX7DIKep2Vh");
       console.log("Webhook verified")
     } catch (err) {
       console.log(`Webhook Error:${err.message}`)
