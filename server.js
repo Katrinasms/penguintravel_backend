@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
   })
 
 
-const endpointSecret = "whsec_bVVmQqjTzbijzhAvUbuVuZBMco5IZXb8";
+// const endpointSecret = "whsec_bVVmQqjTzbijzhAvUbuVuZBMco5IZXb8";
 
 app.post('/webhooks', express.raw({type: 'application/json'}),(request, response) => {
     console.log("loading")
@@ -44,7 +44,7 @@ app.post('/webhooks', express.raw({type: 'application/json'}),(request, response
   
     try {
       
-      event = stripeInstance.webhooks.constructEvent(request.body, sig, endpointSecret);
+      event = stripeInstance.webhooks.constructEvent(request.body, sig, "whsec_bVVmQqjTzbijzhAvUbuVuZBMco5IZXb8");
       console.log("Webhook verified")
     } catch (err) {
       console.log(`Webhook Error:${err.message}`)
@@ -180,51 +180,51 @@ app.post('/create-checkout-session', async (req, res) => {
  }
 
 
-const endpointSecret = "whsec_bVVmQqjTzbijzhAvUbuVuZBMco5IZXb8";
+// const endpointSecret = "whsec_bVVmQqjTzbijzhAvUbuVuZBMco5IZXb8";
 
 
- app.post('/webhooks', express.raw({type: 'application/json'}),(request, response) => {
-    console.log("loading")
-    const sig = request.headers['stripe-signature'];
+//  app.post('/webhooks', express.raw({type: 'application/json'}),(request, response) => {
+//     console.log("loading")
+//     const sig = request.headers['stripe-signature'];
   
-    let event;
+//     let event;
   
-    try {
+//     try {
       
-      event = stripeInstance.webhooks.constructEvent(request.body, sig, endpointSecret);
-      console.log("Webhook verified")
-    } catch (err) {
-      console.log(`Webhook Error:${err.message}`)
-      response.status(400).send(`Webhook Error: ${err.message}`);
-      return;
-    }
-    let data;
-    data = event.data.object;
-    // eventType = event.type;
-    // }else{
+//       event = stripeInstance.webhooks.constructEvent(request.body, sig, endpointSecret);
+//       console.log("Webhook verified")
+//     } catch (err) {
+//       console.log(`Webhook Error:${err.message}`)
+//       response.status(400).send(`Webhook Error: ${err.message}`);
+//       return;
+//     }
+//     let data;
+//     data = event.data.object;
+//     // eventType = event.type;
+//     // }else{
 
-    //   data = request.body.data.object;
-    //   eventType = request.body.type;
-    // }
+//     //   data = request.body.data.object;
+//     //   eventType = request.body.type;
+//     // }
   
-    // Handle the event
-    if(event.type ==="checkout.session.completed"){
-      stripeInstance.customers
-        .retrieve(data.customer)
-        .then(
-          (customer) => {
-            console.log("customer");
-            console.log(customer);
-            console.log("data:", data)
-            updateCredit(customer)
-          }
-        )
-        .catch((err)=> console.log(err.message))
+//     // Handle the event
+//     if(event.type ==="checkout.session.completed"){
+//       stripeInstance.customers
+//         .retrieve(data.customer)
+//         .then(
+//           (customer) => {
+//             console.log("customer");
+//             console.log(customer);
+//             console.log("data:", data)
+//             updateCredit(customer)
+//           }
+//         )
+//         .catch((err)=> console.log(err.message))
 
-    }
-    // Return a 200 response to acknowledge receipt of the event
-    response.send().end();
- });
+//     }
+//     // Return a 200 response to acknowledge receipt of the event
+//     response.send().end();
+//  });
 
 //Second Strip tried - end
 
