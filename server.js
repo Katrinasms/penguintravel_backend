@@ -179,10 +179,21 @@ app.post(
 
  }
 
+ app.use(express.json({
+  verify: (request, response, buffer) => {
+    request.rawBody = buffer;
+    return true;
+  }
+}));
+
+
+
  let endpointSecret;
   endpointSecret = "whsec_bVVmQqjTzbijzhAvUbuVuZBMco5IZXb8";
 
- app.post('/webhooks', express.raw({type: 'application/json'}), (request, response) => {
+//  app.post('/webhooks', express.raw({type: 'application/json'}),
+ app.post('/webhooks', express.json(),
+  (request, response) => {
     console.log("loading")
     const sig = request.headers['stripe-signature'];
     let data;
@@ -195,7 +206,7 @@ app.post(
   
     try {
       
-      event = stripeInstance.webhooks.constructEvent(request.body, sig, endpointSecret);
+      event = stripeInstance.webhooks.constructEvent(request.rawBody, sig, endpointSecret);
       console.log("Webhook verified")
     } catch (err) {
       console.log(`Webhook Error:${err.message}`)
