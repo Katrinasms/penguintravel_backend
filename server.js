@@ -23,7 +23,7 @@ connectDatabase();
 
 const app = express()
 const port = 5001
-app.use("/webhook", bodyParser.raw({ type: "*/*" }));
+// app.use("/webhook", bodyParser.raw({ type: "*/*" }));
 
 app.use(cors({ origin: '*' }))
 
@@ -31,6 +31,56 @@ app.use(cors({ origin: '*' }))
 app.get('/', (req, res) => {
     res.send('Hello World!')
   })
+
+
+const endpointSecret = "whsec_bVVmQqjTzbijzhAvUbuVuZBMco5IZXb8";
+
+app.post('/webhooks', express.raw({type: 'application/json'}),(request, response) => {
+    console.log("loading")
+    const sig = request.headers['stripe-signature'];
+  
+    let event;
+  
+    try {
+      
+      event = stripeInstance.webhooks.constructEvent(request.body, sig, endpointSecret);
+      console.log("Webhook verified")
+    } catch (err) {
+      console.log(`Webhook Error:${err.message}`)
+      response.status(400).send(`Webhook Error: ${err.message}`);
+      return;
+    }
+    let data;
+    data = event.data.object;
+    // eventType = event.type;
+    // }else{
+
+    //   data = request.body.data.object;
+    //   eventType = request.body.type;
+    // }
+  
+    // Handle the event
+    if(event.type ==="checkout.session.completed"){
+      stripeInstance.customers
+        .retrieve(data.customer)
+        .then(
+          (customer) => {
+            console.log("customer");
+            console.log(customer);
+            console.log("data:", data)
+            updateCredit(customer)
+          }
+        )
+        .catch((err)=> console.log(err.message))
+
+    }
+    // Return a 200 response to acknowledge receipt of the event
+    response.send().end();
+});
+
+app.use(express.json());
+
+
 
 app.use("/api/products",productRoute);
 app.use("/api/import",ImportData);
@@ -174,7 +224,7 @@ const endpointSecret = "whsec_bVVmQqjTzbijzhAvUbuVuZBMco5IZXb8";
     // Return a 200 response to acknowledge receipt of the event
     response.send().end();
  });
- app.use(express.json());
+
 //Second Strip tried - end
 
 const PORT = process.env.PORT || 5001 ;
