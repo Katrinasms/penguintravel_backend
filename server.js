@@ -22,7 +22,7 @@ dotenv.config();
 connectDatabase();
 
 const app = express()
-app.use(express.json());
+
 const port = 5001
 // app.use("/webhook", bodyParser.raw({ type: "*/*" }));
 
@@ -79,7 +79,7 @@ app.post('/webhooks', express.raw({type: 'application/json'}),(request, response
     response.send().end();
 });
 
-
+app.use(express.json());
 
 
 
