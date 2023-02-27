@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
   })
 
 
-// const endpointSecret = "whsec_bVVmQqjTzbijzhAvUbuVuZBMco5IZXb8";
+const endpointSecret = "123";
 
 app.post('/webhooks', express.raw({type: 'application/json'}),(request, response) => {
     console.log("loading")
@@ -46,7 +46,7 @@ app.post('/webhooks', express.raw({type: 'application/json'}),(request, response
   
     try {
       
-      event = stripeInstance.webhooks.constructEvent(request.body, sig, "whsec_zvYoqHscD3LeM1a0iSM3RIX7DIKep2Vh");
+      event = stripeInstance.webhooks.constructEvent(request.body, sig, endpointSecret);
       console.log("Webhook verified")
     } catch (err) {
       console.log(`Webhook Error:${err.message}`)
