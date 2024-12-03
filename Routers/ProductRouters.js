@@ -56,14 +56,14 @@ productRoute.get(
       const random = Math.floor(Math.random() * count);
       const doc = await Product.findOne().skip(random).exec();
       randomIds.push(doc._id);
-      console.log("id", doc._id);
+      // console.log("id", doc._id);
     }
 
     
     const product = await Product.find({ _id: { $in: randomIds }});
 
     if (product) {
-      console.log("getrandomProduct", product)
+      // console.log("getrandomProduct", product)
       res.json(product);
     } else {
       res.status(404);
@@ -92,7 +92,7 @@ productRoute.get(
     asyncHandler(async (req, res) => {
       const product = await Product.findById(req.params.id);
       if (product) {
-        console.log("getproductbyid", product)
+        // console.log("getproductbyid", product)
         res.json(product);
       } else {
         res.status(404);

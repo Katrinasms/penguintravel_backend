@@ -11,7 +11,7 @@ userRouter.post(
     "/",
     asyncHandler(async (req, res) => {
       const { name, email, password } = req.body;
-      console.log(name,email,password);
+      // console.log(name,email,password);
   
       if(email && name && password){
         const userExists = await User.findOne({ email });
@@ -52,7 +52,7 @@ userRouter.post(
     "/gooReg",
     asyncHandler(async (req, res) => {
       const { name, email, gid } = req.body;
-      console.log(name,email,gid);
+      // console.log(name,email,gid);
   
       if(email && name && gid){
         const userExists = await User.findOne({ email });

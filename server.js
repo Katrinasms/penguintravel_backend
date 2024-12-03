@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 const endpointSecret = "123";
 
 app.post('/webhooks', express.raw({type: 'application/json'}),(request, response) => {
-    console.log("loading")
+    // console.log("loading")
     const sig = request.headers['stripe-signature'];
   
     let event;
@@ -47,9 +47,9 @@ app.post('/webhooks', express.raw({type: 'application/json'}),(request, response
     try {
       
       event = stripeInstance.webhooks.constructEvent(request.body, sig, endpointSecret);
-      console.log("Webhook verified")
+      // console.log("Webhook verified")
     } catch (err) {
-      console.log(`Webhook Error:${err.message}`)
+      // console.log(`Webhook Error:${err.message}`)
       response.status(400).send(`Webhook Error: ${err.message}`);
       return;
     }
@@ -68,9 +68,9 @@ app.post('/webhooks', express.raw({type: 'application/json'}),(request, response
         .retrieve(data.customer)
         .then(
           (customer) => {
-            console.log("customer");
-            console.log(customer);
-            console.log("data:", data)
+            // console.log("customer");
+            // console.log(customer);
+            // console.log("data:", data)
             updateCredit(customer)
           }
         )
@@ -101,7 +101,7 @@ app.post(
       userId,
       credit_add
     } = req.body;
-    console.log("/createCredit",req.body)
+    // console.log("/createCredit",req.body)
 
     if (!userId && !credit_add) {
       res.status(400);
@@ -133,7 +133,7 @@ app.post('/create-checkout-session', async (req, res) => {
     }
   })
 
-  console.log("in server~", req.body)
+  // console.log("in server~", req.body)
   const session = await stripeInstance.checkout.sessions.create({
 
     line_items: [
@@ -156,7 +156,7 @@ app.post('/create-checkout-session', async (req, res) => {
   });
  
   res.send({url:session.url})
-  console.log("session.url",session.url)
+  // console.log("session.url",session.url)
   
  });
 
@@ -166,12 +166,12 @@ app.post('/create-checkout-session', async (req, res) => {
     try{
 
     const user = await User.findById(customer.metadata.userId)
-    console.log("update User credit",customer.metadata)
-    console.log("update User credit", user.credit)
+    // console.log("update User credit",customer.metadata)
+    // console.log("update User credit", user.credit)
     if (user){
           user.credit =  user.credit + parseFloat(customer.metadata.toPaid)*2;
           const updateUser = await user.save()
-          console.log("update User", updateUser)
+          // console.log("update User", updateUser)
   
     }
        
