@@ -236,6 +236,9 @@ app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`)
 })
 
+app.get('/', (req, res) => {
+  res.send('Hello World!2')
+})
 
 // {
 //   // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
